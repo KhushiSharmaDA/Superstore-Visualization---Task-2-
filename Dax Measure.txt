@@ -1,0 +1,30 @@
+Total Sales = SUM('Superstore'[sales])
+
+Total Profit = SUM('Superstore'[profit])
+
+Total Quantity = SUM('Superstore'[quantity])
+
+Average Discount = AVERAGE('Superstore'[discount])
+
+Profit Margin % = DIVIDE([Total Profit], [Total Sales], 0)
+
+Profit per Order = 
+DIVIDE( [Total Profit], DISTINCTCOUNT('Superstore'[order_id]), 0 )
+
+Loss Amount =
+SUMX(
+    FILTER('Superstore', 'Superstore'[profit] < 0),
+    'Superstore'[profit]
+)
+
+Loss Count Products =
+CALCULATE(
+    DISTINCTCOUNT('Superstore'[product_id]),
+    'Superstore'[profit] < 0
+)
+
+Avg Discount - Loss =
+CALCULATE(AVERAGE('Superstore'[discount]), 'Superstore'[profit] < 0)
+
+Avg Discount - Profit =
+CALCULATE(AVERAGE('Superstore'[discount]), 'Superstore'[profit] >= 0)
